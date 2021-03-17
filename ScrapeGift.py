@@ -1,5 +1,4 @@
 import json
-from sys import path
 from time import sleep
 
 import requests
@@ -88,12 +87,8 @@ class ScrapeGift():
             except requests.exceptions.HTTPError as error:
                 raise SystemExit(error)
 
-URL = "https://www.amazon.es/Cecotec-Aspirador-Rockstar-automático-Autonom%C3%ADa/dp/B08FDW7LCX/ref=sr_1_9?dchild=1&keywords=Dyson&qid=1615308855&sr=8-9&th=1"
-
+URL = "https://www.amazon.es/gp/product/B00SLE4KOO/ref=ox_sc_saved_title_6?smid=A1AT7YVPFBWXBL&psc=1"
+ProxyGenerator().download_ip_as_txt()
 amazon = ScrapeGift(URL)
-amazon.scrape_data_json('test-4.json')
-
-# <td class="a-span12">
-# <span id="priceblock_ourprice" class="a-size-medium a-color-price priceBlockBuyingPriceString">249,00&nbsp;€</span>
-# <span id="ourprice_shippingmessage">
-# <span id="price-shipping-message" class="a-size-base a-color-base"></span>
+amazon.scrape_data_json('test-6.json')
+# "https://www.amazon.es/dp/B07TXCXRZ6/ref=cm_sw_r_sms_api_i_G1HX5ZDEJPZBEW084TDA"

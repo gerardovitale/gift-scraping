@@ -1,7 +1,11 @@
+from random import choice
+
 import requests
 from bs4 import BeautifulSoup
-from random import choice
-from ScrapeAssistance.properties import URL_IP, PATH_IP, PATH_HTML
+from lxml.html import fromstring
+
+from ScrapeAssistance.properties import PATH_HTML, PATH_IP, URL_IP
+
 
 class ProxyGenerator():
 
@@ -17,19 +21,19 @@ class ProxyGenerator():
 
     def scrape_ip_list(self):
         soup = self.soup
-        ip_list = map(lambda x:x.text, soup.findAll('td')[::8])
-        port_list = map(lambda x:x.text, soup.findAll('td')[1::8])
+        ip_list = map(lambda x: x.text, soup.findAll('td')[::8])
+        port_list = map(lambda x: x.text, soup.findAll('td')[1::8])
         return list(map(
-            lambda x:x[0] + ':' + x[1],
+            lambda x: x[0] + ':' + x[1],
             list(zip(ip_list, port_list))
-        ))[:100]
+        ))[:300]
     
     def download_ip_as_txt(self, path=PATH_IP):
         ip_list = self.scrape_ip_list()
         with open(path, 'w') as file:
             for ip in ip_list:
                 file.write("%s\n" % ip)
-        print('[INFO] Completed')
+        print('[INFO] Proxy download completed')
     
     def ip_random_choice(self, path=PATH_IP):
         ip_list = open(path, 'r').readlines()
