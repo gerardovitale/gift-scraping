@@ -10,7 +10,7 @@ short_description:
 images:
     css: '.imgTagWrapper img'
     type: Attribute
-    attribute: data-a-dynamic-image
+    attribute: outputs-a-dynamic-image
 rating:
     css: span.arp-rating-out-of-text
     type: Text
@@ -29,7 +29,7 @@ variants:
         asin:
             css: ""
             type: Attribute
-            attribute: data-defaultasin
+            attribute: outputs-defaultasin
 product_description:
     css: '#productDescription'
     type: Text

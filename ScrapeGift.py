@@ -2,20 +2,20 @@ import json
 from time import sleep
 
 import requests
-import selectorlib
 from selectorlib import Extractor
 
-from ScrapeAssistance.properties import PATH_DATA, PATH_HTML, PATH_YML
 from ScrapeAssistance.ProxyGenerator import ProxyGenerator
 from ScrapeAssistance.UserAgentGenerator import UserAgentGenerator
+from ScrapeAssistance.properties import PATH_DATA, PATH_HTML, PATH_YML
 
 
-class ScrapeGift():
+class ScrapeGift:
 
-    def __init__(self, url:str):
+    def __init__(self, url: str):
         self.url = url[:url.find('?')]
 
-    def get_header(self):
+    @staticmethod
+    def _get_header():
         return {
             'authority': 'www.amazon.com',
             'pragma': 'no-cache',
@@ -30,12 +30,13 @@ class ScrapeGift():
             'Pragma': 'no-cache',
         }
 
-    def get_proxy(self):
+    @staticmethod
+    def _get_proxy():
         return {'https': ProxyGenerator().ip_random_choice()}
 
     def get_parameters(self):
-        headers = self.get_header()
-        proxy = self.get_proxy()
+        headers = self._get_header()
+        proxy = self._get_proxy()
         selector = Extractor.from_yaml_file(PATH_YML)
         return {
             'headers': headers,
@@ -43,18 +44,20 @@ class ScrapeGift():
             'selector': selector
         }
 
-    def download_html(self, soup, path=PATH_HTML):
+    @staticmethod
+    def download_html(soup, path=PATH_HTML):
         with open(path, "w") as file:
             file.write(str(soup))
         print('[INFO] html downloaded')
 
-    def download_data_as_json(self, data:selectorlib, path:str):
+    @staticmethod
+    def download_data_as_json(data: Extractor, path: str):
         with open(PATH_DATA + path, "w") as file:
             json.dump(data, file)
             file.write("\n")
-        print('[INFO] data downloaded')
+        print('[INFO] outputs downloaded')
 
-    def scrape_data_json(self, path:str):
+    def scrape_data_json(self, path: str):
         while True:
             parameters = self.get_parameters()
             try:
@@ -86,6 +89,7 @@ class ScrapeGift():
                 continue
             except requests.exceptions.HTTPError as error:
                 raise SystemExit(error)
+
 
 URL = "https://www.amazon.es/gp/product/B00SLE4KOO/ref=ox_sc_saved_title_6?smid=A1AT7YVPFBWXBL&psc=1"
 ProxyGenerator().download_ip_as_txt()

@@ -6,4 +6,4 @@ PATH_IP = 'ScrapeAssistance/resources/IP.txt'
 PATH_HTML = 'ScrapeAssistance/resources/html/'
 PATH_YML = 'ScrapeAssistance/resources/yml/amazon-selector.yml'
 
-PATH_DATA = 'ScrapeAssistance/data/'
+PATH_DATA = 'ScrapeAssistance/outputs/'

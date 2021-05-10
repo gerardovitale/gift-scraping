@@ -1,7 +1,9 @@
 from random import choice
+
 from ScrapeAssistance.properties import PATH_UA
 
-class UserAgentGenerator():
+
+class UserAgentGenerator:
 
     def __init__(self, path=PATH_UA):
         self.user_agent_list = open(path, 'r').readlines()

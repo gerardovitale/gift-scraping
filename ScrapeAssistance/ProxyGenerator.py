@@ -2,19 +2,18 @@ from random import choice
 
 import requests
 from bs4 import BeautifulSoup
-from lxml.html import fromstring
 
 from ScrapeAssistance.properties import PATH_HTML, PATH_IP, URL_IP
 
 
-class ProxyGenerator():
+class ProxyGenerator:
 
     def __init__(self, url=URL_IP):
         self.url = url[:url.find('?')]
         self.html = requests.get(url)
         self.soup = BeautifulSoup(self.html.content, features="lxml")
 
-    def download_html(self, path:str):
+    def download_html(self, path: str):
         with open(PATH_HTML + path, "w") as file:
             file.write(str(self.soup))
         print('[INFO] html downloaded')
@@ -34,7 +33,8 @@ class ProxyGenerator():
             for ip in ip_list:
                 file.write("%s\n" % ip)
         print('[INFO] Proxy download completed')
-    
-    def ip_random_choice(self, path=PATH_IP):
+
+    @staticmethod
+    def ip_random_choice(path=PATH_IP):
         ip_list = open(path, 'r').readlines()
         return choice(ip_list).replace('\n', '')
