@@ -1,12 +1,12 @@
-import json
 from time import sleep
 
 import requests
 from selectorlib import Extractor
 
+from ScrapeAssistance.DataManager import DataManager
 from ScrapeAssistance.ProxyGenerator import ProxyGenerator
 from ScrapeAssistance.UserAgentGenerator import UserAgentGenerator
-from ScrapeAssistance.properties import PATH_DATA, PATH_HTML, PATH_YML
+from ScrapeAssistance.properties import PATH_YML
 
 
 class ScrapeGift:
@@ -44,20 +44,7 @@ class ScrapeGift:
             'selector': selector
         }
 
-    @staticmethod
-    def download_html(soup, path=PATH_HTML):
-        with open(path, "w") as file:
-            file.write(str(soup))
-        print('[INFO] html downloaded')
-
-    @staticmethod
-    def download_data_as_json(data: Extractor, path: str):
-        with open(PATH_DATA + path, "w") as file:
-            json.dump(data, file)
-            file.write("\n")
-        print('[INFO] outputs downloaded')
-
-    def scrape_data_json(self, path: str):
+    def scrape_data_json(self, file_name: str):
         while True:
             parameters = self.get_parameters()
             try:
@@ -71,7 +58,7 @@ class ScrapeGift:
                 if html.status_code == 200:
                     print("[INFO] status: 200")
                     data = parameters['selector'].extract(html.text)
-                    self.download_data_as_json(data, path=path)
+                    DataManager().download_data_as_json(data, file_name=file_name)
                     return data
                 print("[INFO] Sleeping...")
                 sleep(5)
@@ -89,10 +76,3 @@ class ScrapeGift:
                 continue
             except requests.exceptions.HTTPError as error:
                 raise SystemExit(error)
-
-
-URL = "https://www.amazon.es/gp/product/B00SLE4KOO/ref=ox_sc_saved_title_6?smid=A1AT7YVPFBWXBL&psc=1"
-ProxyGenerator().download_ip_as_txt()
-amazon = ScrapeGift(URL)
-amazon.scrape_data_json('test-6.json')
-# "https://www.amazon.es/dp/B07TXCXRZ6/ref=cm_sw_r_sms_api_i_G1HX5ZDEJPZBEW084TDA"
